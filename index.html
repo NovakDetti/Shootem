@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Shoot'em</title>
+		<link rel="stylesheet" href="./style/main.css">
+	</head>
+	<body onload="init();">
+		<div class="game-container">
+			<div id="background-pic"></div>
+			<div id="game-frame">
+
+			</div>
+		</div>
+		<script src="./pixi.min.js"></script>
+		<script src="https://cartomanzia-tarocchi.com/wp-content/plugins/giochi-carte/public/js/MotionPathPlugin.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.0/gsap.min.js"></script>
+		<script src="bump.js"></script>
+		<script src="Launch.js"></script>
+		<script src="Menu.js"></script>
+		<script src="Button.js"></script>
+		<script src="Main.js"></script>
+		<script src="Background.js"></script>
+		<script src="GameLetterhead.js"></script>
+		<script src="./models/Space.js"></script>
+		<script src="./models/Gun.js"></script>
+		<script src="./models/Enemy.js"></script>
+		<script src="./controller/GameSpace.js"></script>
+		<script>
+			function init() {
+				launch = new Launch();
+			}
+		</script>
+	</body>
+</html>
