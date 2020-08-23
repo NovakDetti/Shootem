@@ -1,6 +1,6 @@
 function Space() {
     var texture = PIXI.Texture.from("assets/space.png");
-    PIXI.TilingSprite.call(this, texture, 150, 118);
+    PIXI.TilingSprite.call(this, texture, 120, 118);
 
     this.position.x = 0;
     this.position.y = 0;
