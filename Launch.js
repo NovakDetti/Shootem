@@ -3,6 +3,12 @@ function Launch() {
     document.getElementById("game-frame").appendChild(app.view);
 
     let menuContainer = new PIXI.Container();
+    this.logo = new PIXI.Sprite.from("assets/logo.png");
+    this.logo.x = 300;
+    this.logo.y = 30;
+    this.logo.width = 200;
+    this.logo.height = 50;
+    menuContainer.addChild(this.logo);
 
     let button1 = new Button("assets/game1Button.png", 300, 100);
     menuContainer.addChild(button1);
@@ -31,7 +37,6 @@ function Launch() {
         requestAnimationFrame(update.bind(this));
     });
 
-    createBackground();
     loadSpriteSheet();
 
     function update() {
@@ -40,22 +45,9 @@ function Launch() {
 
     function loadSpriteSheet () {
         var loader = PIXI.Loader.shared;
-        loader.add("background", "assets/space.jpg");
+        loader.add("background", "assets/game-space.jpg");
         loader.add("star", "assets/star.png");
         loader.load();
     };
-
-    function createBackground(){
-        let starAmount = 100;
-        for (let i = 0; i < starAmount; ++i) {
-            let star = new PIXI.Sprite.from("assets/star.png");
-            star.width = 2;
-            star.height = 2;
-            star.x = Math.floor(Math.random() * 800 + 1)
-            star.y = Math.floor(Math.random() * 600 + 1)
-            app.stage.addChild(star);
-        }
-    }
-
     
 }

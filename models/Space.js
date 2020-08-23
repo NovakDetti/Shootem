@@ -13,16 +13,16 @@ function Space() {
         console.log(e.keyCode)
         switch(e.keyCode){
             case 37:
-                this.position.x += 10;
+                this.position.x -= 20;
                 break;
             case 38:
-                this.position.y -= 10;
+                this.position.y -= 20;
                 break;
             case 39:
-                this.position.x += 10;
+                this.position.x += 20;
                 break;
             case 40:
-                this.position.y += 10;
+                this.position.y += 20;
                 break;
         }
     })

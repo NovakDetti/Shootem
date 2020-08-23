@@ -59,6 +59,7 @@ function GameSpace( app ) {
 			}
 		});
 		setTimeout(() => app.stage.removeChild(enemy), 2000)
+
 	}
 
 	function explode(posX, posY){
@@ -90,9 +91,10 @@ function GameSpace( app ) {
 					setTimeout(() => {
 						app.stage.removeChild(this.gun)
 						this.enemy = new Enemy();
-						randomFly(this.enemy, 2000)
+						randomFly(this.enemy, 0)
 					}, 400)
 				}
+			
 				setTimeout(() => {
 					app.stage.removeChild(this.gun)
 				}, 400)

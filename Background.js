@@ -1,5 +1,5 @@
 function Background() {
-	var texture = PIXI.Texture.from("assets/game-space.jpg");
+	var texture = PIXI.Texture.from("assets/game-space.png");
 	PIXI.TilingSprite.call(this, texture, 800, 600);
 
 	this.position.x = 0;
