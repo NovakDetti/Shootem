@@ -1,0 +1,24 @@
+{
+  "name": "shootem",
+  "version": "1.0.0",
+  "description": "PIXI game",
+  "main": "Launch.js",
+  "scripts": {
+    "start": "webpack && live-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NovakDetti/Shootem.git"
+  },
+  "author": "Novák Bernadett",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NovakDetti/Shootem/issues"
+  },
+  "homepage": "https://github.com/NovakDetti/Shootem#readme",
+  "dependencies": {
+    "live-server": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}
