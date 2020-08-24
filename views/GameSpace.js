@@ -44,7 +44,7 @@ function GameSpace( app ) {
 		}
 		gsap.registerPlugin(MotionPathPlugin);
 
-		var tween = gsap.from(enemy, {
+		let tween = gsap.from(enemy, {
 			duration: 3,
 			repeatDelay: 3,
 			ease: "none",
@@ -68,7 +68,7 @@ function GameSpace( app ) {
 					app.stage.removeChild(this.enemy)
 					enemyCounter +=1;
 					enemysCount.text = `Destroyed enemies : ${enemyCounter}`;
-					this.explode(this.enemy.x, this.enemy.y, null);
+					this.explode(this.enemy.x, this.enemy.y);
 					setTimeout(() => {
 						app.stage.removeChild(this.gun)
 						this.enemy = new Enemy();
@@ -87,7 +87,7 @@ function GameSpace( app ) {
 	this.actApp = app;
 }
 
-GameSpace.prototype.explode = function (posX, posY, sprite) {
+GameSpace.prototype.explode = function (posX, posY, sprite = null) {
 	let explosion = new PIXI.AnimatedSprite(this.explosionTextures);
 	explosion.x = posX + 50;
 	explosion.y = posY + 50;
@@ -103,8 +103,8 @@ GameSpace.prototype.explode = function (posX, posY, sprite) {
 GameSpace.prototype.checkIfCollide = function (sprite1, sprite2) {
 	let sprite1Bounds = sprite1.getBounds();
 	let sprite2Bounds = sprite2.getBounds();
-	if ((sprite1Bounds.x + sprite1Bounds.width) > sprite2Bounds.x
-		&& sprite1Bounds.x < (sprite2Bounds.x + sprite2Bounds.width)
+	if ((sprite1Bounds.x + sprite1Bounds.width-20) > sprite2Bounds.x
+		&& sprite1Bounds.x < (sprite2Bounds.x + sprite2Bounds.width - 20)
 		&& (sprite1Bounds.y + sprite1Bounds.height) > sprite2Bounds.y
 		&& sprite1Bounds.y < (sprite2Bounds.y + sprite2Bounds.height)
 	) {
@@ -119,13 +119,19 @@ GameSpace.prototype.setViewportX = function(viewportX) {
 };
 
 GameSpace.prototype.moveViewportXBy = function(units, app) {
-	var newViewportX = this.viewportX + units;
+	let newViewportX = this.viewportX + units;
 	this.setViewportX(newViewportX, app);
 	if(this.checkIfCollide(this.space, this.enemy)){
 		this.explode(this.space.x, this.space.y, this.space)
-		let frame = document.getElementById("game-frame");
-		frame.innerHTML = "";
-		let launch = new Launch();
+		setTimeout(() => {
+			PIXI.loader.reset();
+			this.actApp.destroy(true);
+			PIXI.utils.destroyTextureCache();
+			this.actApp = null;
+			document.getElementById("game-frame").innerHTML= "";
+			let launch = new Launch();
+		}, 1500)
+		
 	}
 };
 

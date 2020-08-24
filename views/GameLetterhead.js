@@ -1,5 +1,5 @@
 function GameLetterhead() {
-    var texture = PIXI.Texture.from("assets/letterhead.png");
+    let texture = PIXI.Texture.from("assets/letterhead.png");
     this.sprite = PIXI.Sprite.call(this, texture);
 
     this.position.x = 470;

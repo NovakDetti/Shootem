@@ -1,5 +1,5 @@
 function Space() {
-    var texture = PIXI.Texture.from("assets/space.png");
+    let texture = PIXI.Texture.from("assets/space.png");
     PIXI.TilingSprite.call(this, texture, 120, 118);
 
     this.position.x = 0;
@@ -29,7 +29,3 @@ function Space() {
 }
 
 Space.prototype = Object.create(PIXI.TilingSprite.prototype);
-
-Space.prototype.getPosY = function () {
-    return this.position.y;
-};

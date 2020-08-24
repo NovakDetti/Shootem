@@ -1,5 +1,5 @@
 function Button(imgUrl, posX, posY) {
-    var texture = PIXI.Texture.from(imgUrl);
+    let texture = PIXI.Texture.from(imgUrl);
     PIXI.TilingSprite.call(this, texture, 200, 64);
 
     this.position.x = posX;

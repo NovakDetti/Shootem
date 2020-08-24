@@ -63,7 +63,7 @@ function Launch() {
         requestAnimationFrame(update.bind(this));    };
 
     function loadSpriteSheet () {
-        var loader = PIXI.Loader.shared;
+        let loader = PIXI.Loader.shared;
         loader.add("background", "assets/game-space.jpg");
         loader.add("star", "assets/star.png");
         loader.load();

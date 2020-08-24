@@ -1,5 +1,5 @@
 function Background() {
-	var texture = PIXI.Texture.from("assets/game-space.png");
+	let texture = PIXI.Texture.from("assets/game-space.png");
 	PIXI.TilingSprite.call(this, texture, 800, 600);
 
 	this.position.x = 0;
@@ -15,7 +15,7 @@ Background.prototype = Object.create(PIXI.TilingSprite.prototype);
 Background.DELTA_X = 0.064;
 
 Background.prototype.setViewportX = function(newViewportX) {
-	var distanceTravelled = newViewportX - this.viewportX;
+	let distanceTravelled = newViewportX - this.viewportX;
 	this.viewportX = newViewportX;
 	this.tilePosition.x -= (distanceTravelled * Background.DELTA_X);
 };

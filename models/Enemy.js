@@ -13,8 +13,3 @@ function Enemy(app) {
 }
 
 Enemy.prototype = Object.create(PIXI.TilingSprite.prototype);
-
-Enemy.prototype.getPosY = function () {
-    return this.position.y;
-};
-

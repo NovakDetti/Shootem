@@ -14,7 +14,7 @@ function Main(app) {
 	};
 
 	function loadSpriteSheet () {
-		var loader = PIXI.Loader.shared;
+		let loader = PIXI.Loader.shared;
 		loader.add("space", "assets/background.jpg");
 		loader.add("enemy", "assets/enemy.png");
 		loader.add("gun", "assets/gun.png");
