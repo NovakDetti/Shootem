@@ -3,6 +3,21 @@ function Launch() {
     document.getElementById("game-frame").appendChild(app.view);
 
     let menuContainer = new PIXI.Container();
+
+    let stars = [];
+    for(let i = 0; i< 100; i++){
+        this.star = new PIXI.Sprite.from("assets/star.png");
+        this.star.x = 50;
+        this.star.y = 30;
+        this.star.width = 5;
+        this.star.height = 5;
+        stars.push(this.star);
+        menuContainer.addChild(this.star);
+    }
+
+    stars.forEach(star => TweenLite.to(star, 3, { x: Math.random() * 800 + 1, y: Math.random() * 600 + 1, ease: Power4.easeIn }))
+
+
     this.logo = new PIXI.Sprite.from("assets/logo.png");
     this.logo.x = 300;
     this.logo.y = 30;
@@ -21,6 +36,17 @@ function Launch() {
 
     let quit = new Button("assets/quitButton.png", 300, 400);
     menuContainer.addChild(quit);
+
+    // add event listeners to make buttons interactive
+
+    button1.on('mousedown', () => loadGame());
+    button2.on('mousedown', () => loadGame());
+    button3.on('mousedown', () => loadGame());
+
+    quit.on('mousedown', () => {
+        window.confirm("Are you sure you want to quit?")
+    })
+
     //add menu after launch
 
     let launchScreen = PIXI.Sprite.from("assets/background.jpg");
@@ -31,17 +57,10 @@ function Launch() {
         app.stage.addChild(menuContainer)
     }, 2000);
 
-    button1.on('mousedown', () => {
-        app.stage.removeChild(menuContainer);
-        let main = new Main(app);
-        requestAnimationFrame(update.bind(this));
-    });
-
     loadSpriteSheet();
 
     function update() {
-        requestAnimationFrame(update.bind(this));
-    };
+        requestAnimationFrame(update.bind(this));    };
 
     function loadSpriteSheet () {
         var loader = PIXI.Loader.shared;
@@ -49,5 +68,11 @@ function Launch() {
         loader.add("star", "assets/star.png");
         loader.load();
     };
+
+    function loadGame () {
+        app.stage.removeChild(menuContainer);
+        let main = new Main(app);
+        requestAnimationFrame(update.bind(this));
+    }
     
 }
