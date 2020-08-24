@@ -14,7 +14,7 @@ function Enemy(app) {
 
 Enemy.prototype = Object.create(PIXI.TilingSprite.prototype);
 
-Enemy.prototype.checkIfDissapear = function (){
-    return this.viewportX < -120 || this.viewportY < -120
-}
+Enemy.prototype.getPosY = function () {
+    return this.position.y;
+};
 

@@ -1,8 +1,5 @@
 function GameSpace( app ) {
 	let enemyCounter = 0;
-	let playerLife = 3;
-
-	this.b = new Bump(PIXI);
 
 	this.background = new Background();
 	app.stage.addChild(this.background);
@@ -12,29 +9,27 @@ function GameSpace( app ) {
 
 	this.gun = new Gun();
 
+	this.enemy = new Enemy();
+	randomFly(this.enemy, 0);
+
 	this.gameLetterhead = new GameLetterhead();
 	app.stage.addChild(this.gameLetterhead)
-	let playerLives = new PIXI.Text(`Player lives: ${playerLife}`, { fontFamily: 'Arial', fontSize: 13});
-	playerLives.x = 10;
-	playerLives.y = 30;
-	this.gameLetterhead.addChild(playerLives);
 	let enemysCount = new PIXI.Text(`Destroyed enemies : ${enemyCounter}`, { fontFamily: 'Arial', fontSize: 13 });
-	enemysCount.x = 120;
+	enemysCount.x = 40;
 	enemysCount.y = 30;
 	this.gameLetterhead.addChild(enemysCount);
 
-	const explosionTextures = [];
+	//load assets to explosion
+
+	this.explosionTextures = [];
 	app.loader
 		.add('explode', 'assets/explode_sprite/explode.json')
 		.load(() => {
 			for (i = 0; i < 26; i++) {
 				const texture = PIXI.Texture.from(`explode_${i + 1}.png`);
-				explosionTextures.push(texture);
+				this.explosionTextures.push(texture);
 			}
 		});
-
-	this.enemy = new Enemy();
-	randomFly(this.enemy, 0);
 
 	function randomFly(enemy, timeout){
 		setTimeout(timeout);
@@ -58,22 +53,8 @@ function GameSpace( app ) {
 				type: 'cubic'
 			}
 		});
-		console.log(enemy.y)
+		
 		setTimeout(() => app.stage.removeChild(enemy), 3000)
-		
-	}
-
-	function explode(posX, posY){
-		let explosion;
-		explosion = new PIXI.AnimatedSprite(explosionTextures);
-		explosion.x = posX + 50;
-		explosion.y = posY + 50;
-		explosion.anchor.set(0.5);
-		explosion.scale.set(0.75);
-		explosion.gotoAndPlay(Math.random() * 27);
-		app.stage.addChild(explosion);
-		setTimeout(() => app.stage.removeChild(explosion), 300 )
-		
 	}
 
 	window.addEventListener("keydown", (e) => {
@@ -83,11 +64,11 @@ function GameSpace( app ) {
 				this.gun.tilePosition.x = 0;
 				this.gun.tilePosition.y = 0;
 				app.stage.addChild(this.gun);
-				if (this.b.hit(this.gun, this.enemy)) {
+				if (this.checkIfCollide(this.gun, this.enemy)) {
 					app.stage.removeChild(this.enemy)
 					enemyCounter +=1;
 					enemysCount.text = `Destroyed enemies : ${enemyCounter}`;
-					explode(this.enemy.x, this.enemy.y);
+					this.explode(this.enemy.x, this.enemy.y, null);
 					setTimeout(() => {
 						app.stage.removeChild(this.gun)
 						this.enemy = new Enemy();
@@ -103,7 +84,32 @@ function GameSpace( app ) {
 	})
 
 	this.viewportX = 0;
+	this.actApp = app;
+}
 
+GameSpace.prototype.explode = function (posX, posY, sprite) {
+	let explosion = new PIXI.AnimatedSprite(this.explosionTextures);
+	explosion.x = posX + 50;
+	explosion.y = posY + 50;
+	explosion.anchor.set(0.5);
+	explosion.scale.set(0.75);
+	explosion.gotoAndPlay(Math.random() * 27);
+	this.actApp.stage.addChild(explosion);
+	this.actApp.stage.removeChild(sprite)
+	setTimeout(() => this.actApp.stage.removeChild(explosion), 300)
+};
+
+
+GameSpace.prototype.checkIfCollide = function (sprite1, sprite2) {
+	let sprite1Bounds = sprite1.getBounds();
+	let sprite2Bounds = sprite2.getBounds();
+	if ((sprite1Bounds.x + sprite1Bounds.width) > sprite2Bounds.x
+		&& sprite1Bounds.x < (sprite2Bounds.x + sprite2Bounds.width)
+		&& (sprite1Bounds.y + sprite1Bounds.height) > sprite2Bounds.y
+		&& sprite1Bounds.y < (sprite2Bounds.y + sprite2Bounds.height)
+	) {
+		return true;
+	}
 }
 
 GameSpace.prototype.setViewportX = function(viewportX) {
@@ -115,5 +121,12 @@ GameSpace.prototype.setViewportX = function(viewportX) {
 GameSpace.prototype.moveViewportXBy = function(units, app) {
 	var newViewportX = this.viewportX + units;
 	this.setViewportX(newViewportX, app);
+	if(this.checkIfCollide(this.space, this.enemy)){
+		this.explode(this.space.x, this.space.y, this.space)
+		let frame = document.getElementById("game-frame");
+		frame.innerHTML = "";
+		let launch = new Launch();
+	}
 };
+
 

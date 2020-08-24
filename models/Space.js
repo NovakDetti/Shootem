@@ -10,7 +10,6 @@ function Space() {
     this.interactive = true
 
     window.addEventListener("keydown", (e) => {
-        console.log(e.keyCode)
         switch(e.keyCode){
             case 37:
                 this.position.x -= 20;
@@ -31,3 +30,6 @@ function Space() {
 
 Space.prototype = Object.create(PIXI.TilingSprite.prototype);
 
+Space.prototype.getPosY = function () {
+    return this.position.y;
+};
