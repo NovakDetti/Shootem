@@ -39,10 +39,10 @@ function GameSpace( app ) {
 	function randomFly(enemy, timeout){
 		setTimeout(timeout);
 		app.stage.addChild(enemy);
-		let path = [Math.round(Math.random() * 700 + 1), Math.round(Math.random() * 400 + 1), 800, Math.round(Math.random() * 600 + 1), 840, Math.round(Math.random() * 200 + 1)];
+		let path = [Math.round(Math.random() * 700 + 1), Math.round(Math.random() * 400 + 1), 400, Math.round(Math.random() * 600 + 1), 840, Math.round(Math.random() * 600 + 200)];
 		let path2 = [{
-			x: 0,
-			y: 0
+			x: -100,
+			y: Math.round(Math.random() * 600 + 1)
 		}];
 		for (let i = 0; i < path.length; i = i + 2) {
 			path2.push({ x: path[i], y: path[i + 1] })
@@ -50,7 +50,7 @@ function GameSpace( app ) {
 		gsap.registerPlugin(MotionPathPlugin);
 
 		var tween = gsap.from(enemy, {
-			duration: 2,
+			duration: 3,
 			repeatDelay: 3,
 			ease: "none",
 			motionPath: {
@@ -58,8 +58,9 @@ function GameSpace( app ) {
 				type: 'cubic'
 			}
 		});
-		setTimeout(() => app.stage.removeChild(enemy), 2000)
-
+		console.log(enemy.y)
+		setTimeout(() => app.stage.removeChild(enemy), 3000)
+		
 	}
 
 	function explode(posX, posY){
@@ -77,8 +78,8 @@ function GameSpace( app ) {
 
 	window.addEventListener("keydown", (e) => {
 		if (e.keyCode === 32){
-				this.gun.position.x = this.space.position.x + this.space.width-20;
-				this.gun.position.y = this.space.position.y + this.space.height/3;
+				this.gun.position.x = this.space.position.x + this.space.width-10;
+				this.gun.position.y = this.space.position.y + this.space.height - 80;
 				this.gun.tilePosition.x = 0;
 				this.gun.tilePosition.y = 0;
 				app.stage.addChild(this.gun);
@@ -86,7 +87,6 @@ function GameSpace( app ) {
 					app.stage.removeChild(this.enemy)
 					enemyCounter +=1;
 					enemysCount.text = `Destroyed enemies : ${enemyCounter}`;
-					console.log(enemyCounter)
 					explode(this.enemy.x, this.enemy.y);
 					setTimeout(() => {
 						app.stage.removeChild(this.gun)
@@ -110,12 +110,10 @@ GameSpace.prototype.setViewportX = function(viewportX) {
 	this.viewportX = viewportX;
 	this.background.setViewportX(viewportX);
 	this.gun.setViewportX(-viewportX);
-	
 };
 
 GameSpace.prototype.moveViewportXBy = function(units, app) {
 	var newViewportX = this.viewportX + units;
 	this.setViewportX(newViewportX, app);
-
 };
 
